@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de tareas</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
+
+</head>
+
+<body>
+    <h1>Aplicacón listado de tareas</h1>
+    <div class="form">
+        <form id="formulario">
+            <input type="text" id="nombre" placeholder="Ingresa un nombre" required>
+            <button type="submit" class="enviar">Agregar</button>
+        </form>
+
+    </div>
+    <h2>Lista de tareas</h2>
+    <div class="tabla">
+        <table border="1" id="tabla-1">
+            <thead>
+                <tr>
+                    <th>Nombre de la tarea</th>
+                    <th>Eliminar</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Matematicas</td>
+                    <td><box-icon type='solid' name='x-circle'></box-icon></td>
+                </tr>
+                <tr>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+
+    <script src="script.js"></script>
+</body>
+
+</html>
