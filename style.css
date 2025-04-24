@@ -106,3 +106,35 @@ h2 {
     background-color: #45a049;
     transform: scale(1.05);
 }
+
+.btn-borrar{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+#eliminarDatos {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 20px;
+    background-color: #dc3232;
+    border: none;
+    color: white;
+    font-weight: bold;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.borrarDatos:hover {
+    background-color: #45a049;
+    transform: scale(1.05);
+}
+
+
+.fila-seleccionada {
+    background-color: #d1e7dd;
+    color: #0f5132;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}

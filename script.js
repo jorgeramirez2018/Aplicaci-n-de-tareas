@@ -1,54 +1,86 @@
 const formulario = document.getElementById("formulario");
-const lista = document.querySelector("#tabla-1 tbody");
+const lista = document.querySelector("#tabla-body");
+const button = document.querySelector("#btn");
+const eliminarTodosButton = document.querySelector("#eliminarDatos");
 
 cargarEventos();
 
 function cargarEventos() {
   formulario.addEventListener("submit", ingresar);
   lista.addEventListener("click", eliminarElemento);
+  eliminarTodosButton.addEventListener("click", eliminarTodasLasTareas);
+
+  mostrarTareasGuardadas();
 }
 
 function ingresar(e) {
   e.preventDefault();
-  const nombreInput = document.getElementById("nombre");
-  const nombre = nombreInput.value.trim();
 
-  if (nombre === "") return;
+  const nombre = document.getElementById("nombre").value.trim();
+  if (!nombre) return;
 
-  const info = {
-    nombre: nombre,
-    id: Date.now(),
-  };
+  const tareas = JSON.parse(localStorage.getItem("tareas")) || [];
+  tareas.push({ nombre });
 
-  insertarDatos(info);
+  localStorage.setItem("tareas", JSON.stringify(tareas));
+
+  lista.innerHTML = "";
+  mostrarTareasGuardadas();
   formulario.reset();
 }
 
-function insertarDatos(dato) {
-  const row = document.createElement("tr");
-  row.innerHTML = `
-    <td>${dato.nombre}</td>
-    <td><a href="#" class="borrar" data-id="${dato.id}"><box-icon type='solid' name='x-circle'></box-icon></a></td>
+function mostrarTareasGuardadas() {
+  const tareasGuardadas = JSON.parse(localStorage.getItem("tareas")) || [];
 
-  `;
-  lista.appendChild(row);
+  tareasGuardadas.forEach((tarea) => {
+    const row = document.createElement("tr");
+    row.innerHTML = `
+      <td>${tarea.nombre}</td>
+      <td>
+        <a href="#" class="borrar">
+          <box-icon name='x-circle' type='solid'></box-icon>
+        </a>
+      </td>
+    `;
+    lista.appendChild(row);
+  });
 }
 
 function eliminarElemento(e) {
   e.preventDefault();
-  const botonEliminar = e.target.closest(".borrar");
 
-  if (botonEliminar) {
-    botonEliminar.parentElement.parentElement.remove();
+  const boton = e.target.closest(".borrar");
+
+  if (boton) {
+    const fila = boton.closest("tr");
+    const nombreTarea = fila.querySelector("td").textContent;
+    let tareas = JSON.parse(localStorage.getItem("tareas")) || [];
+    tareas = tareas.filter((tarea) => tarea.nombre !== nombreTarea);
+    localStorage.setItem("tareas", JSON.stringify(tareas));
+
+    fila.remove();
   }
 }
 
+function eliminarTodasLasTareas(e) {
+  e.preventDefault();
+
+  localStorage.removeItem("tareas");
+
+  lista.innerHTML = "";
+}
 lista.addEventListener("click", function (e) {
   const fila = e.target.closest("tr");
 
-  if (e.target.closest(".borrar")) return;
-
   if (fila) {
-    fila.classList.toggle("tarea-completada");
+    if (fila.classList.contains("fila-seleccionada")) {
+      fila.classList.remove("fila-seleccionada");
+    } else {
+
+      document
+        .querySelectorAll("#tabla-body tr")
+        .forEach((f) => f.classList.remove("fila-seleccionada"));
+      fila.classList.add("fila-seleccionada");
+    }
   }
 });
